@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="templateMenuPage" class="org.geoserver.web.MenuPageInfo">
+	    <property name="id" value="templates" />
+	    <property name="titleKey" value="TemplatePage.title" />
+	    <property name="descriptionKey" value="TemplatePage.description" />
+	    <property name="componentClass" value="org.geoserver.fmte.web.TemplatePage" />
+	    <property name="category" ref="dataCategory" />
+	    <property name="icon" value="../img/icons/template.png" />
+	    <property name="order" value="60" />
+	    <property name="authorizer" ref="workspaceAdminAuthorizer"/>
+     </bean>
+     
+     <bean id="TemplateEditorPage" class="org.geoserver.fmte.web.TemplateEditorPageInfo">
+        <property name="id" value="LayerTemplateEditorPage" />
+        <property name="titleKey" value="TemplateEditorPage.title" />
+        <property name="descriptionKey" value="TemplateEditorPage.description" />
+        <property name="componentClass" value="org.geoserver.fmte.web.LayerTemplateEditorPage" />
+    </bean>
+     
+     <bean id="helloPage" class="org.geoserver.fmte.web.TemplateEditorPageInfo">
+      <property name="id" value="helloPage"/>
+      <property name="titleKey" value="HelloPage.page.title"/>
+      <property name="descriptionKey" value="HelloPage.page.description"/>
+      <property name="componentClass" value="org.geoserver.fmte.web.HelloPage"/>
+    </bean>
+    
+</beans>
