@@ -13,11 +13,11 @@
 	    <property name="authorizer" ref="workspaceAdminAuthorizer"/>
      </bean>
      
-     <bean id="TemplateEditorPage" class="org.geoserver.fmte.web.TemplateEditorPageInfo">
-        <property name="id" value="LayerTemplateEditorPage" />
-        <property name="titleKey" value="TemplateEditorPage.title" />
-        <property name="descriptionKey" value="TemplateEditorPage.description" />
-        <property name="componentClass" value="org.geoserver.fmte.web.LayerTemplateEditorPage" />
+     <bean id="AbstractTemplateEditorPage" class="org.geoserver.fmte.web.TemplateEditorPageInfo">
+        <property name="id" value="AbstractTemplateEditorPage" />
+        <property name="titleKey" value="AbstractTemplateEditorPage.title" />
+        <property name="descriptionKey" value="AbstractTemplateEditorPage.description" />
+        <property name="componentClass" value="org.geoserver.fmte.web.AbstractTemplateEditorPage" />
     </bean>
      
      <bean id="helloPage" class="org.geoserver.fmte.web.TemplateEditorPageInfo">

@@ -1,18 +1,9 @@
 package org.geoserver.fmte.web;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.platform.resource.Paths;
-import org.geoserver.rest.RestletException;
-import org.restlet.data.Status;
 
 public class TemplateResourceObject implements Serializable {
     /** serialVersionUID */
@@ -28,7 +19,10 @@ public class TemplateResourceObject implements Serializable {
     private String srcpath;
 
     private String destpath;
+    
+    private List<String> availablePaths;
 
+    @Deprecated
     public TemplateResourceObject(String tpl, String source, String filename, 
             String layername, String wsname) {
         this.originalContent = tpl;
@@ -37,6 +31,17 @@ public class TemplateResourceObject implements Serializable {
         this.filename = filename;
         this.layername = layername;
         this.workspacename = wsname;
+    }
+
+    public TemplateResourceObject( String tplName, String tplcontent, String sourcePath) {
+        this.originalContent = tplcontent;
+        this.content = tplcontent;
+        this.srcpath = sourcePath;
+        this.filename = tplName;
+    }
+    
+    public String getSavePath() {
+        return Paths.path(this.destpath, this.filename);
     }
 
     public String getContent() {
@@ -69,6 +74,14 @@ public class TemplateResourceObject implements Serializable {
 
     public String getSrcpath() {
         return srcpath;
+    }
+
+    public List<String> getAvailablePaths() {
+        return availablePaths;
+    }
+
+    public void setAvailablePaths(List<String> availablePaths) {
+        this.availablePaths = availablePaths;
     }
 
     public String getDestpath() {

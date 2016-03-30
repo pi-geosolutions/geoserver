@@ -68,8 +68,11 @@ public class TemplatePage extends GeoServerSecuredPage {
         IModel layerNameModel = NAME.getModel(model);
         String wsName = (String) WORKSPACE.getModel(model).getObject();
         String layerName = (String) layerNameModel.getObject();
+        IModel storeModel = STORE.getModel(model);
+        String storeName = (String) storeModel.getObject();
         return new SimpleBookmarkableLink(id, LayerTemplateEditorPage.class, layerNameModel, 
                 ResourceConfigurationPage.NAME, layerName, 
+                DataAccessEditPage.STORE_NAME, storeName,
                 ResourceConfigurationPage.WORKSPACE, wsName);
     }
 
@@ -79,14 +82,14 @@ public class TemplatePage extends GeoServerSecuredPage {
         String storeName = (String) storeModel.getObject();
         LayerInfo layer = (LayerInfo) model.getObject();
         StoreInfo store = layer.getResource().getStore();
-        return new SimpleBookmarkableLink(id, HelloPage.class, storeModel, 
+        return new SimpleBookmarkableLink(id, StoreTemplateEditorPage.class, storeModel, 
                     DataAccessEditPage.STORE_NAME, storeName, 
                     DataAccessEditPage.WS_NAME, wsName);
     }
 
     private Component workspaceLink(String id, final IModel model) {
         IModel nameModel = WORKSPACE.getModel(model);
-        return new SimpleBookmarkableLink(id, HelloPage.class, nameModel,
+        return new SimpleBookmarkableLink(id, StoreTemplateEditorPage.class, nameModel,
                 DataAccessEditPage.WS_NAME, (String) nameModel.getObject());
     }
     

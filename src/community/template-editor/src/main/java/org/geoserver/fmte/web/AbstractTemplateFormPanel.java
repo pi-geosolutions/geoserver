@@ -17,25 +17,29 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.geotools.util.logging.Logging;
 
-public class TemplateFormPanel extends Panel {
-    private static final Logger LOGGER = Logging.getLogger(TemplateFormPanel.class);
+public class AbstractTemplateFormPanel extends Panel {
+    private static final Logger LOGGER = Logging.getLogger(AbstractTemplateFormPanel.class);
     
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
-    private Label srcpath_label, destpath_label, destpath_label_dirty;
+    private Label srcpath_label, destpath_label, destpath_label_dirty, 
+        filename_label, destfilename_label;
     private TextArea<String> tpl;
     private AjaxLink save_btn, reload_btn, delete_btn;
     
-    private OldLayerTemplateEditorPage templateEditorPage;
+    private AbstractTemplateEditorPage templateEditorPage;
     private IModel<TemplateResourceObject> templateModel;
 
-    public TemplateFormPanel(String id, final IModel<TemplateResourceObject> model) {
+    public AbstractTemplateFormPanel(String id, final IModel<TemplateResourceObject> model) {
         super(id, model);
         this.templateModel=model;
         
         srcpath_label = new Label( "srcpath");
         srcpath_label.setOutputMarkupId(true);
         add( srcpath_label );
+        filename_label = new Label( "filename");
+        filename_label.setOutputMarkupId(true);
+        add( filename_label );
         
         destpath_label = new Label( "destpath");
         destpath_label.setOutputMarkupId(true);
@@ -112,7 +116,7 @@ public class TemplateFormPanel extends Panel {
         target.addComponent(destpath_label_dirty);
     }
     
-    public void setParent(OldLayerTemplateEditorPage page) {
+    public void setParent(AbstractTemplateEditorPage page) {
         this.templateEditorPage = page;
     }
     
