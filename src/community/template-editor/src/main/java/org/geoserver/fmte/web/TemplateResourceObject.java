@@ -40,6 +40,19 @@ public class TemplateResourceObject implements Serializable {
         this.filename = tplName;
     }
     
+    /**
+     * Syncs with the templateResourceObject t content 
+     * @param t : source templateObject
+     */
+    public void from(TemplateResourceObject t) {
+        this.setFilename(t.getFilename());
+        this.setAvailablePaths( t.getAvailablePaths() );
+        this.setSrcpath(t.getSrcpath());
+        this.setDestpath(t.getDestpath());
+        this.setContent(t.getContent());
+        this.setOriginalContent(t.getOriginalContent());
+    }
+    
     public String getSavePath() {
         return Paths.path(this.destpath, this.filename);
     }

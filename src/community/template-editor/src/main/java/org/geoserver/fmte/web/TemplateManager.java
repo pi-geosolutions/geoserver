@@ -125,6 +125,7 @@ public class TemplateManager implements Serializable {
         return msg;
     }
 
+    @Deprecated
     public static GeoServerTemplateLoader getGeoServerTemplateLoader() throws IOException {
         GeoServerTemplateLoader templateLoader = new GeoServerTemplateLoader(
                 HTMLFeatureInfoOutputFormat.class);
@@ -193,7 +194,9 @@ public class TemplateManager implements Serializable {
             //reload
             List<String> paths = tpl.getAvailablePaths();
             paths.remove(0);
-            tpl = TemplateManager.readTemplate(tpl.getFilename(), paths, loader, charset);
+            TemplateResourceObject t = TemplateManager.readTemplate(tpl.getFilename(), paths, 
+                    loader, charset);
+            tpl.from(t);
             msg += "Reloading template config.";
         } else {
             msg = "Cannot remove file : not allowed (this template belongs to the datastore or upper)";
