@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
 import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.web.ComponentAuthorizer;
 import org.geoserver.web.GeoServerSecuredPage;
@@ -85,6 +87,9 @@ public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
 
     protected void initComponents() {
 
+        add(new Label( "name", Model.of(fullname)));
+        add(new Label( "type", Model.of(resourceType)));
+        
         headerFormPanel = new AbstractTemplateFormPanel("headerTplPanel",
                 new CompoundPropertyModel(tpl_header));
         headerFormPanel.setParent(this);

@@ -89,7 +89,7 @@ public class TemplatePage extends GeoServerSecuredPage {
 
     private Component workspaceLink(String id, final IModel model) {
         IModel nameModel = WORKSPACE.getModel(model);
-        return new SimpleBookmarkableLink(id, StoreTemplateEditorPage.class, nameModel,
+        return new SimpleBookmarkableLink(id, WorkspaceTemplateEditorPage.class, nameModel,
                 DataAccessEditPage.WS_NAME, (String) nameModel.getObject());
     }
     

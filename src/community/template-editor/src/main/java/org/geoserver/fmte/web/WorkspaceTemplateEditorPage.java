@@ -18,11 +18,11 @@ public class WorkspaceTemplateEditorPage extends AbstractTemplateEditorPage {
 
     public WorkspaceTemplateEditorPage(PageParameters parameters) {
         super(parameters);
-        this.resourceType = "Workspace";
     }
 
     protected void init(PageParameters parameters) {
         workspaceName = parameters.getString(DataAccessEditPage.WS_NAME);
+        this.resourceType = "workspace";
     }
 
     @Override

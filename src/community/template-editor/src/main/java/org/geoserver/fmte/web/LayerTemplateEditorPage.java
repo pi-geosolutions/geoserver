@@ -37,9 +37,13 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
 
     @Override
     protected void initComponents() {
-        super.initComponents();
+        LayerInfo layer = getLayer(layerName, workspaceName);
         
-        ResourceInfo resource = getResource(layerName, workspaceName);
+        ResourceInfo resource=null;
+        if (layer!=null) {
+            this.resourceType = layer.getType().toString().toLowerCase()+" layer";
+            resource = layer.getResource();
+        }
 
         RepeatingView attributesList = new RepeatingView("attributesList");
         if (resource instanceof FeatureTypeInfo) {
@@ -59,6 +63,9 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
         }
 
         add(attributesList);
+        
+
+        super.initComponents();
     }
 
     protected void init(PageParameters parameters) {
@@ -87,7 +94,7 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
     }
 
     
-    private ResourceInfo getResource(String layerName, String workspaceName) {
+    private LayerInfo getLayer(String layerName, String workspaceName) {
         LOGGER.info("[getResource] layername=" + layerName + " , workspacename=" + workspaceName);
         LayerInfo layer;
         if (workspaceName != null) {
@@ -103,16 +110,7 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
             layer = getCatalog().getLayerByName(layerName);
         }
 
-        if (layer == null) {
-            /*
-             * error(new ParamResourceModel("ResourceConfigurationPage.notFound", this, layerName) .getString());
-             */
-            setResponsePage(returnPage);
-            return null;
-        }
-
         LOGGER.fine("successfully loaded layer " + layerName + ", type " + layer.getType().toString());
-        ResourceInfo resource = layer.getResource();
-        return resource;
+        return layer;
     }
 }

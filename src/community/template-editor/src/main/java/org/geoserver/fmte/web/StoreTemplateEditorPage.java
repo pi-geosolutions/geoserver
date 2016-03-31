@@ -20,12 +20,12 @@ public class StoreTemplateEditorPage extends AbstractTemplateEditorPage {
 
     public StoreTemplateEditorPage(PageParameters parameters) {
         super(parameters);
-        this.resourceType = "Store";
     }
 
     protected void init(PageParameters parameters) {
         workspaceName = parameters.getString(DataAccessEditPage.WS_NAME);
         storeName = parameters.getString(DataAccessEditPage.STORE_NAME);
+        this.resourceType = "store";
     }
 
     @Override
