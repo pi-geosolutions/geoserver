@@ -42,6 +42,9 @@ textarea {
 #templates_editor ul {
     list-style-type: none;
 }
+#templates_editor .attributes ul {
+    list-style-type: circle;
+}
 #templates_editor li {
     clear : both;
 }

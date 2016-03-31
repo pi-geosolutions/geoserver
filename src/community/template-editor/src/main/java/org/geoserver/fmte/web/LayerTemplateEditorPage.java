@@ -1,11 +1,19 @@
 package org.geoserver.fmte.web;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.repeater.RepeatingView;
+import org.geoserver.catalog.AttributeTypeInfo;
+import org.geoserver.catalog.CoverageDimensionInfo;
+import org.geoserver.catalog.CoverageInfo;
+import org.geoserver.catalog.FeatureTypeInfo;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.NamespaceInfo;
+import org.geoserver.catalog.ResourceInfo;
 import org.geoserver.fmte.contants.GeoServerConstants;
 import org.geoserver.platform.resource.Paths;
 import org.geoserver.web.data.resource.ResourceConfigurationPage;
@@ -25,6 +33,32 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
     public LayerTemplateEditorPage(PageParameters parameters) {
         super(parameters);
         this.resourceType = "Layer";
+    }
+
+    @Override
+    protected void initComponents() {
+        super.initComponents();
+        
+        ResourceInfo resource = getResource(layerName, workspaceName);
+
+        RepeatingView attributesList = new RepeatingView("attributesList");
+        if (resource instanceof FeatureTypeInfo) {
+            FeatureTypeInfo featureTypeInfo = (FeatureTypeInfo) resource;
+            Iterator<AttributeTypeInfo> it = featureTypeInfo.getAttributes().iterator();
+            while (it.hasNext()) {
+                AttributeTypeInfo info = it.next();
+                attributesList.add(new Label(attributesList.newChildId(), info.getName()));
+            }
+        } else if (resource instanceof CoverageInfo) {
+            CoverageInfo coverageInfo = (CoverageInfo) resource;
+            Iterator<CoverageDimensionInfo> it = coverageInfo.getDimensions().iterator();
+            while (it.hasNext()) {
+                CoverageDimensionInfo info = it.next();
+                attributesList.add(new Label(attributesList.newChildId(), info.getName()));
+            }
+        }
+
+        add(attributesList);
     }
 
     protected void init(PageParameters parameters) {
@@ -50,5 +84,35 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
     @Override
     protected String buildResourceFullName() {
         return workspaceName + ":" + layerName;
+    }
+
+    
+    private ResourceInfo getResource(String layerName, String workspaceName) {
+        LOGGER.info("[getResource] layername=" + layerName + " , workspacename=" + workspaceName);
+        LayerInfo layer;
+        if (workspaceName != null) {
+            NamespaceInfo ns = getCatalog().getNamespaceByPrefix(workspaceName);
+            if (ns == null) {
+                // unlikely to happen, requires someone making modifications on the workspaces
+                // with a layer page open in another tab/window
+                throw new RuntimeException("Could not find workspace " + workspaceName);
+            }
+            String nsURI = ns.getURI();
+            layer = getCatalog().getLayerByName(new NameImpl(nsURI, layerName));
+        } else {
+            layer = getCatalog().getLayerByName(layerName);
+        }
+
+        if (layer == null) {
+            /*
+             * error(new ParamResourceModel("ResourceConfigurationPage.notFound", this, layerName) .getString());
+             */
+            setResponsePage(returnPage);
+            return null;
+        }
+
+        LOGGER.fine("successfully loaded layer " + layerName + ", type " + layer.getType().toString());
+        ResourceInfo resource = layer.getResource();
+        return resource;
     }
 }
