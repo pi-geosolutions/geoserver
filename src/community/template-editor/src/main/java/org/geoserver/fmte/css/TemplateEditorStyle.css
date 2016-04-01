@@ -19,11 +19,12 @@ textarea {
     height : 100px;
 }
 
-#templates_editor .path span.active {
+#templates_editor .path span.active,
+#templates_editor p.path span.active+span {
     font-weight : bold;
     color : black;
 }
-#templates_editor .path span {
+#templates_editor .path span{
     font-weight : normal;
     color : grey;
 }
