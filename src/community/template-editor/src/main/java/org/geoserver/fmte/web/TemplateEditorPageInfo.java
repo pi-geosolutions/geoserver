@@ -5,6 +5,7 @@ import org.geoserver.web.GeoServerSecuredPage;
 
 /**
  * Extension hook for template editor pages (should not show in menu)
+ * 
  * @author Jean Pommier <jean.pommier@pi-geosolutions.fr>
  */
 @SuppressWarnings("serial")

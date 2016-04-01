@@ -22,7 +22,9 @@ import org.geotools.feature.NameImpl;
 
 public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
     private String workspaceName;
+
     private String storeName = "";
+
     private String layerName = "";
 
     public LayerTemplateEditorPage() {
@@ -38,10 +40,10 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
     @Override
     protected void initComponents() {
         LayerInfo layer = getLayer(layerName, workspaceName);
-        
-        ResourceInfo resource=null;
-        if (layer!=null) {
-            this.resourceType = layer.getType().toString().toLowerCase()+" layer";
+
+        ResourceInfo resource = null;
+        if (layer != null) {
+            this.resourceType = layer.getType().toString().toLowerCase() + " layer";
             resource = layer.getResource();
         }
 
@@ -63,7 +65,6 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
         }
 
         add(attributesList);
-        
 
         super.initComponents();
     }
@@ -80,7 +81,8 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
             this.init(parameters);
         }
         List<String> pathList = new ArrayList<String>();
-        pathList.add(Paths.path(GeoServerConstants.WORKSPACES, workspaceName, storeName,layerName));
+        pathList.add(
+                Paths.path(GeoServerConstants.WORKSPACES, workspaceName, storeName, layerName));
         pathList.add(Paths.path(GeoServerConstants.WORKSPACES, workspaceName, storeName));
         pathList.add(Paths.path(GeoServerConstants.WORKSPACES, workspaceName));
         pathList.add(Paths.path(GeoServerConstants.WORKSPACES));
@@ -93,7 +95,6 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
         return workspaceName + ":" + layerName;
     }
 
-    
     private LayerInfo getLayer(String layerName, String workspaceName) {
         LOGGER.info("[getResource] layername=" + layerName + " , workspacename=" + workspaceName);
         LayerInfo layer;
@@ -110,7 +111,8 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
             layer = getCatalog().getLayerByName(layerName);
         }
 
-        LOGGER.fine("successfully loaded layer " + layerName + ", type " + layer.getType().toString());
+        LOGGER.fine(
+                "successfully loaded layer " + layerName + ", type " + layer.getType().toString());
         return layer;
     }
 }

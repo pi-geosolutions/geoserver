@@ -1,16 +1,11 @@
 package org.geoserver.fmte.web;
 
-import static org.geoserver.fmte.web.LayerProvider.ENABLED;
 import static org.geoserver.fmte.web.LayerProvider.NAME;
-import static org.geoserver.fmte.web.LayerProvider.SRS;
 import static org.geoserver.fmte.web.LayerProvider.STORE;
 import static org.geoserver.fmte.web.LayerProvider.TYPE;
 import static org.geoserver.fmte.web.LayerProvider.WORKSPACE;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.IModel;

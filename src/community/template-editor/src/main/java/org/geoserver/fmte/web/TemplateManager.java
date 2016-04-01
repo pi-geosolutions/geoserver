@@ -27,6 +27,7 @@ import freemarker.cache.ClassTemplateLoader;
 public class TemplateManager implements Serializable {
     /** serialVersionUID */
     private static final long serialVersionUID = 7291211731171362557L;
+
     private static final Logger LOGGER = Logging.getLogger(TemplateManager.class);
 
     @Deprecated
@@ -62,8 +63,8 @@ public class TemplateManager implements Serializable {
             return msg;
         }
 
-        LOGGER.info("Saving template "+tpl.getFilename()+" to "+tpl.getSavePath());
-        
+        LOGGER.info("Saving template " + tpl.getFilename() + " to " + tpl.getSavePath());
+
         if (tpl.getSavePath() == null) {
             msg = "Undefined destination path. Doing nothing";
             return msg;
@@ -83,7 +84,7 @@ public class TemplateManager implements Serializable {
             IOUtils.closeQuietly(out);
         }
         tpl.setOriginalContent(tpl.getContent());
-        tpl.setSrcpath(tpl.getDestpath()); //template is now local !
+        tpl.setSrcpath(tpl.getDestpath()); // template is now local !
         return msg;
     }
 
@@ -93,35 +94,35 @@ public class TemplateManager implements Serializable {
     @Deprecated
     public static String deleteTemplate(TemplateResourceObject tpl, GeoServerResourceLoader loader,
             ResourceInfo resource, String charset) throws IOException {
-        String msg="";
-         // We check if the file (resource) is dedicated to this layer : 
+        String msg = "";
+        // We check if the file (resource) is dedicated to this layer :
         // we won't allow to delete a shared template !
         if (tpl.getSrcpath().equalsIgnoreCase(tpl.getDestpath())) {
             loader.remove(tpl.getDestpath());
-            LOGGER.info("remove file "+tpl.getDestpath());
+            LOGGER.info("remove file " + tpl.getDestpath());
             msg = "Removed file. ";
-            
-            //reload
+
+            // reload
             GeoServerTemplateLoader templateLoader = getGeoServerTemplateLoader();
             templateLoader.setResource(resource);
             Object _tpl = templateLoader.findTemplateSource(tpl.getFilename());
             Reader reader = templateLoader.getReader(_tpl, charset);
             String tplstring = IOUtils.toString(reader);
 
-            tpl.setOriginalContent(tplstring); //so that reload will properly work
+            tpl.setOriginalContent(tplstring); // so that reload will properly work
             tpl.setContent(tplstring);
-            String source = "default template"; 
+            String source = "default template";
             if (_tpl instanceof File) {
                 String filepath = ((File) _tpl).getPath();
                 source = filepath.substring(filepath.indexOf(GeoServerConstants.WORKSPACES));
-            } 
+            }
             tpl.setSrcpath(source);
-            
+
             msg += "Reloading template config.";
         } else {
             msg = "Cannot remove file : not allowed (this template belgons to the datastore or upper)";
         }
-        
+
         return msg;
     }
 
@@ -133,28 +134,28 @@ public class TemplateManager implements Serializable {
         // classpath, if no file is found
         return templateLoader;
     }
-    
-    public static TemplateResourceObject readTemplate(String tplName, List<String> resourcePaths, 
+
+    public static TemplateResourceObject readTemplate(String tplName, List<String> resourcePaths,
             GeoServerResourceLoader loader, String charset) throws IOException {
-        TemplateResourceObject template=null;
-        
+        TemplateResourceObject template = null;
+
         Iterator<String> it = resourcePaths.iterator();
-        String actualPath="";
-        String tplcontent=null;
+        String actualPath = "";
+        String tplcontent = null;
         while (it.hasNext()) {
             String path = it.next();
             String tplpath = Paths.path(path, tplName);
-            LOGGER.info("looking in "+tplpath);
+            LOGGER.info("looking in " + tplpath);
             Resource res = loader.get(tplpath);
-            if (res.getType() ==Resource.Type.RESOURCE ) {
-                LOGGER.fine("Template path is "+tplpath);
-                
+            if (res.getType() == Resource.Type.RESOURCE) {
+                LOGGER.fine("Template path is " + tplpath);
+
                 BufferedInputStream in = null;
                 try {
                     in = new BufferedInputStream(res.in());
                     tplcontent = IOUtils.toString(in);
-                    actualPath=path;
-                    
+                    actualPath = path;
+
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -162,53 +163,54 @@ public class TemplateManager implements Serializable {
                 } finally {
                     IOUtils.closeQuietly(in);
                 }
-                
+
                 break;
             }
         }
-        if (tplcontent==null) {
-            tplcontent = loadTemplateFromClassLoader(HTMLFeatureInfoOutputFormat.class, 
-                    tplName, charset);
+        if (tplcontent == null) {
+            tplcontent = loadTemplateFromClassLoader(HTMLFeatureInfoOutputFormat.class, tplName,
+                    charset);
             actualPath = "default/";
         }
-        LOGGER.fine("Template content is "+tplcontent);
+        LOGGER.fine("Template content is " + tplcontent);
         template = new TemplateResourceObject(tplName, tplcontent, actualPath);
         template.setAvailablePaths(resourcePaths);
         template.setDestpath(resourcePaths.get(0));
         return template;
     }
-    
+
     /*
      * Deletes the .tpl file if it is in the same folder than the layer (dedicated .tpl file)
      */
     public static String deleteTemplate(TemplateResourceObject tpl, GeoServerResourceLoader loader,
             String charset) throws IOException {
-        String msg="";
-         // We check if the file (resource) is dedicated to this layer : 
+        String msg = "";
+        // We check if the file (resource) is dedicated to this layer :
         // we won't allow to delete a shared template !
         if (tpl.getSrcpath().equalsIgnoreCase(tpl.getDestpath())) {
             loader.remove(tpl.getSavePath());
-            LOGGER.info("remove file "+tpl.getSavePath());
+            LOGGER.info("remove file " + tpl.getSavePath());
             msg = "Removed file. ";
-            
-            //reload
+
+            // reload
             List<String> paths = tpl.getAvailablePaths();
             paths.remove(0);
-            TemplateResourceObject t = TemplateManager.readTemplate(tpl.getFilename(), paths, 
+            TemplateResourceObject t = TemplateManager.readTemplate(tpl.getFilename(), paths,
                     loader, charset);
             tpl.from(t);
             msg += "Reloading template config.";
         } else {
             msg = "Cannot remove file : not allowed (this template belongs to the datastore or upper)";
         }
-        
+
         return msg;
     }
 
-    private static String loadTemplateFromClassLoader(Class caller, String tplName, String charset) throws IOException {
+    private static String loadTemplateFromClassLoader(Class caller, String tplName, String charset)
+            throws IOException {
         ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(caller, "");
-        //ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(caller, "/org/geoserver/wms/featureinfo");
-      //final effort to use a class resource
+        // ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(caller, "/org/geoserver/wms/featureinfo");
+        // final effort to use a class resource
         if (classTemplateLoader != null) {
             Object source = classTemplateLoader.findTemplateSource(tplName);
             Reader reader = classTemplateLoader.getReader(source, charset);

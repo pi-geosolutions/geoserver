@@ -10,21 +10,22 @@ public class TemplateResourceObject implements Serializable {
     private static final long serialVersionUID = 5135224484018193841L;
 
     private String filename, layername, workspacename;
-    
+
     private String originalContent;
+
     private String content;
-    
-    private String dirty=""; //marker telling if content has changed (needs saving)
+
+    private String dirty = ""; // marker telling if content has changed (needs saving)
 
     private String srcpath;
 
     private String destpath;
-    
+
     private List<String> availablePaths;
 
     @Deprecated
-    public TemplateResourceObject(String tpl, String source, String filename, 
-            String layername, String wsname) {
+    public TemplateResourceObject(String tpl, String source, String filename, String layername,
+            String wsname) {
         this.originalContent = tpl;
         this.content = tpl;
         this.srcpath = source;
@@ -33,26 +34,27 @@ public class TemplateResourceObject implements Serializable {
         this.workspacename = wsname;
     }
 
-    public TemplateResourceObject( String tplName, String tplcontent, String sourcePath) {
+    public TemplateResourceObject(String tplName, String tplcontent, String sourcePath) {
         this.originalContent = tplcontent;
         this.content = tplcontent;
         this.srcpath = sourcePath;
         this.filename = tplName;
     }
-    
+
     /**
-     * Syncs with the templateResourceObject t content 
+     * Syncs with the templateResourceObject t content
+     * 
      * @param t : source templateObject
      */
     public void from(TemplateResourceObject t) {
         this.setFilename(t.getFilename());
-        this.setAvailablePaths( t.getAvailablePaths() );
+        this.setAvailablePaths(t.getAvailablePaths());
         this.setSrcpath(t.getSrcpath());
         this.setDestpath(t.getDestpath());
         this.setContent(t.getContent());
         this.setOriginalContent(t.getOriginalContent());
     }
-    
+
     public String getSavePath() {
         return Paths.path(this.destpath, this.filename);
     }
@@ -64,7 +66,7 @@ public class TemplateResourceObject implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
     public String getOriginalContent() {
         return originalContent;
     }
@@ -72,7 +74,7 @@ public class TemplateResourceObject implements Serializable {
     public void setOriginalContent(String content) {
         this.originalContent = content;
     }
-    
+
     public void resetContent() {
         this.content = this.originalContent;
     }

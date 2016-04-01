@@ -5,8 +5,6 @@
  */
 package org.geoserver.fmte.web;
 
-import static org.geoserver.catalog.Predicates.acceptAll;
-import static org.geoserver.catalog.Predicates.or;
 import static org.geoserver.catalog.Predicates.sortBy;
 
 import java.util.Arrays;

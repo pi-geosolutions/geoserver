@@ -31,7 +31,7 @@ public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
     protected String resourceType = "abstract";
 
     protected TemplateResourceObject tpl_header, tpl_content, tpl_footer;
-    
+
     protected AbstractTemplateFormPanel headerFormPanel, contentFormPanel, footerFormPanel;
 
     public AbstractTemplateEditorPage() {
@@ -87,16 +87,16 @@ public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
 
     protected void initComponents() {
 
-        add(new Label( "name", Model.of(fullname)));
-        add(new Label( "type", Model.of(resourceType)));
-        
+        add(new Label("name", Model.of(fullname)));
+        add(new Label("type", Model.of(resourceType)));
+
         headerFormPanel = new AbstractTemplateFormPanel("headerTplPanel",
                 new CompoundPropertyModel(tpl_header));
         headerFormPanel.setParent(this);
         add(headerFormPanel);
 
-        contentFormPanel = new AbstractTemplateFormPanel(
-                "contentTplPanel", new CompoundPropertyModel(tpl_content));
+        contentFormPanel = new AbstractTemplateFormPanel("contentTplPanel",
+                new CompoundPropertyModel(tpl_content));
         contentFormPanel.setParent(this);
         add(contentFormPanel);
 
