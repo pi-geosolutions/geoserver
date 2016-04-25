@@ -5,6 +5,7 @@
 
 package org.geoserver.fmte.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,11 +56,18 @@ public class LayerTemplateEditorPage extends AbstractTemplateEditorPage {
         RepeatingView attributesList = new RepeatingView("attributesList");
         if (resource instanceof FeatureTypeInfo) {
             FeatureTypeInfo featureTypeInfo = (FeatureTypeInfo) resource;
-            Iterator<AttributeTypeInfo> it = featureTypeInfo.getAttributes().iterator();
-            while (it.hasNext()) {
-                AttributeTypeInfo info = it.next();
-                attributesList.add(new Label(attributesList.newChildId(), info.getName()));
+            Iterator<AttributeTypeInfo> it;
+            try {
+                it = featureTypeInfo.attributes().iterator();
+                while (it.hasNext()) {
+                    AttributeTypeInfo info = it.next();
+                    attributesList.add(new Label(attributesList.newChildId(), info.getName()));
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+
         } else if (resource instanceof CoverageInfo) {
             CoverageInfo coverageInfo = (CoverageInfo) resource;
             Iterator<CoverageDimensionInfo> it = coverageInfo.getDimensions().iterator();
