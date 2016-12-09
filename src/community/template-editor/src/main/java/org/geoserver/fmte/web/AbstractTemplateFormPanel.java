@@ -77,6 +77,8 @@ public class AbstractTemplateFormPanel extends Panel {
             }
 
         };
+        save_btn.setEnabled(false);
+        save_btn.setOutputMarkupId(true);
         add(save_btn);
 
         reload_btn = new AjaxLink("reload_btn", Model.of("Reload")) {

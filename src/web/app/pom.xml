@@ -189,6 +189,11 @@
       <artifactId>xmlunit</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.geoserver</groupId>
+    	<artifactId>template-editor</artifactId>
+    	<version>0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -261,6 +266,7 @@
         <artifactId>maven-jetty-plugin</artifactId>
         <version>6.1.22</version>
         <configuration>
+    <scanIntervalSeconds>1</scanIntervalSeconds>
           <contextPath>geoserver</contextPath>
           <connectors>
             <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">

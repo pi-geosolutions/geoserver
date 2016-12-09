@@ -457,5 +457,11 @@
         <module>params-extractor</module>
       </modules>
     </profile>
+    <profile>
+      <id>template-editor</id>
+      <modules>
+        <module>template-editor</module>
+      </modules>
+    </profile>
   </profiles>
 </project>

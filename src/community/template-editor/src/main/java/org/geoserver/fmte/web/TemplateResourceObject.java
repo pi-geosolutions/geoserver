@@ -88,6 +88,10 @@ public class TemplateResourceObject implements Serializable {
         return dirty;
     }
 
+    public boolean isDirty() {
+        return !dirty.equalsIgnoreCase("");
+    }
+
     public void setDirty(String dirty) {
         this.dirty = dirty;
     }
