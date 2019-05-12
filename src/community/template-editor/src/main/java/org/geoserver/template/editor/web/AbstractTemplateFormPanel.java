@@ -77,9 +77,9 @@ public class AbstractTemplateFormPanel extends Panel {
             }
 
         };
-        save_btn.setEnabled(true);
         save_btn.setOutputMarkupId(true);
         add(save_btn);
+        save_btn.setEnabled(true);
 
         reload_btn = new AjaxLink("reload_btn", Model.of("Reload")) {
             @Override
@@ -106,7 +106,6 @@ public class AbstractTemplateFormPanel extends Panel {
         srcpath_label.add(AttributeModifier.replace("class", ""));
         destpath_label.add(AttributeModifier.replace("class", "active"));
         destpath_label_dirty.add(AttributeModifier.replace("class", "active"));
-        // TODO rewrite this
         target.add(srcpath_label);
         target.add(destpath_label);
         target.add(destpath_label_dirty);
@@ -118,7 +117,6 @@ public class AbstractTemplateFormPanel extends Panel {
         destpath_label.add(AttributeModifier.replace("class", ""));
         templateModel.getObject().setDirty("");
         destpath_label_dirty.add(AttributeModifier.replace("class", ""));
-        // TODO rewrite this
         target.add(tpl);
         target.add(srcpath_label);
         target.add(destpath_label);
@@ -128,5 +126,6 @@ public class AbstractTemplateFormPanel extends Panel {
     public void setParent(AbstractTemplateEditorPage page) {
         this.templateEditorPage = page;
     }
+
 
 }
