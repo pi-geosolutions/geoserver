@@ -1,26 +1,23 @@
 /* (c) 2014 Open Source Geospatial Foundation - all rights reserved
-* This code is licensed under the GPL 2.0 license, available at the root
-* application directory.
-*/
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 
 package org.geoserver.template.editor.web;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.web.ComponentAuthorizer;
 import org.geoserver.web.GeoServerSecuredPage;
 import org.geotools.util.logging.Logging;
 
-/**
- * Base page for creating/editing templates
- */
+/** Base page for creating/editing templates */
 @SuppressWarnings("serial")
 public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
     protected static final Logger LOGGER = Logging.getLogger(AbstractTemplateEditorPage.class);
@@ -36,11 +33,9 @@ public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
     protected String resourceType = "abstract";
 
     protected TemplateResourceObject tpl_header, tpl_content, tpl_footer;
-
     protected AbstractTemplateFormPanel headerFormPanel, contentFormPanel, footerFormPanel;
 
-    public AbstractTemplateEditorPage() {
-    }
+    public AbstractTemplateEditorPage() {}
 
     public AbstractTemplateEditorPage(PageParameters parameters) {
         this.resourcePaths = this.getResourcePaths(parameters);
@@ -72,17 +67,17 @@ public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
             return;
         }
         GeoServerResourceLoader loader = this.getCatalog().getResourceLoader();
-        tpl_header = TemplateManager.readTemplate("header.ftl", resourcePaths, loader,
-                getCharset());
-        tpl_content = TemplateManager.readTemplate("content.ftl", resourcePaths, loader,
-                getCharset());
-        tpl_footer = TemplateManager.readTemplate("footer.ftl", resourcePaths, loader,
-                getCharset());
+        tpl_header =
+                TemplateManager.readTemplate("header.ftl", resourcePaths, loader, getCharset());
+        tpl_content =
+                TemplateManager.readTemplate("content.ftl", resourcePaths, loader, getCharset());
+        tpl_footer =
+                TemplateManager.readTemplate("footer.ftl", resourcePaths, loader, getCharset());
     }
 
     /**
      * Builds a list of available paths where to look for templates
-     * 
+     *
      * @param parameters URL parameters used to identify the resource and build the paths
      * @return List<String> List of paths (as Strings)
      */
@@ -95,18 +90,21 @@ public abstract class AbstractTemplateEditorPage extends GeoServerSecuredPage {
         add(new Label("name", Model.of(fullname)));
         add(new Label("type", Model.of(resourceType)));
 
-        headerFormPanel = new AbstractTemplateFormPanel("headerTplPanel",
-                new CompoundPropertyModel(tpl_header));
+        headerFormPanel =
+                new AbstractTemplateFormPanel(
+                        "headerTplPanel", new CompoundPropertyModel(tpl_header));
         headerFormPanel.setParent(this);
         add(headerFormPanel);
 
-        contentFormPanel = new AbstractTemplateFormPanel("contentTplPanel",
-                new CompoundPropertyModel(tpl_content));
+        contentFormPanel =
+                new AbstractTemplateFormPanel(
+                        "contentTplPanel", new CompoundPropertyModel(tpl_content));
         contentFormPanel.setParent(this);
         add(contentFormPanel);
 
-        footerFormPanel = new AbstractTemplateFormPanel("footerTplPanel",
-                new CompoundPropertyModel(tpl_footer));
+        footerFormPanel =
+                new AbstractTemplateFormPanel(
+                        "footerTplPanel", new CompoundPropertyModel(tpl_footer));
         footerFormPanel.setParent(this);
         add(footerFormPanel);
     }

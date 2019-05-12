@@ -1,7 +1,7 @@
 /* (c) 2014 Open Source Geospatial Foundation - all rights reserved
-* This code is licensed under the GPL 2.0 license, available at the root
-* application directory.
-*/
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 
 package org.geoserver.template.editor.web;
 
@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.geoserver.catalog.AttributeTypeInfo;
 import org.geoserver.catalog.CoverageDimensionInfo;
 import org.geoserver.catalog.CoverageInfo;
@@ -20,8 +19,8 @@ import org.geoserver.catalog.FeatureTypeInfo;
 import org.geoserver.catalog.LayerInfo;
 import org.geoserver.catalog.NamespaceInfo;
 import org.geoserver.catalog.ResourceInfo;
-import org.geoserver.template.editor.constants.GeoServerConstants;
 import org.geoserver.platform.resource.Paths;
+import org.geoserver.template.editor.constants.GeoServerConstants;
 import org.geoserver.web.data.resource.ResourceConfigurationPage;
 import org.geoserver.web.data.store.DataAccessEditPage;
 import org.geotools.feature.NameImpl;

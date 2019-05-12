@@ -1,16 +1,15 @@
 /* (c) 2014 Open Source Geospatial Foundation - all rights reserved
-* This code is licensed under the GPL 2.0 license, available at the root
-* application directory.
-*/
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 
 package org.geoserver.template.editor.web;
 
 import java.util.logging.Logger;
-
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -24,7 +23,10 @@ public class AbstractTemplateFormPanel extends Panel {
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    private Label srcpath_label, destpath_label, destpath_label_dirty, filename_label,
+    private Label srcpath_label,
+            destpath_label,
+            destpath_label_dirty,
+            filename_label,
             destfilename_label;
 
     private TextArea<String> tpl;
@@ -57,47 +59,50 @@ public class AbstractTemplateFormPanel extends Panel {
         tpl = new TextArea<String>("content");
         tpl.setOutputMarkupId(true);
         add(tpl);
-        tpl.add(new OnChangeAjaxBehavior() {
-            /** serialVersionUID */
-            private static final long serialVersionUID = 1L;
+        tpl.add(
+                new OnChangeAjaxBehavior() {
+                    /** serialVersionUID */
+                    private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-                ajaxSetDirty(target);
-            }
-        });
+                    @Override
+                    protected void onUpdate(AjaxRequestTarget target) {
+                        ajaxSetDirty(target);
+                    }
+                });
 
-        save_btn = new AjaxLink("save_btn", Model.of("Save")) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (templateEditorPage != null) {
-                    templateEditorPage.saveTemplate(model.getObject());
-                    ajaxReload(target);
-                }
-            }
-
-        };
+        save_btn =
+                new AjaxLink("save_btn", Model.of("Save")) {
+                    @Override
+                    public void onClick(AjaxRequestTarget target) {
+                        if (templateEditorPage != null) {
+                            templateEditorPage.saveTemplate(model.getObject());
+                            ajaxReload(target);
+                        }
+                    }
+                };
         save_btn.setOutputMarkupId(true);
         add(save_btn);
         save_btn.setEnabled(true);
 
-        reload_btn = new AjaxLink("reload_btn", Model.of("Reload")) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                ajaxReload(target);
-            }
-        };
+        reload_btn =
+                new AjaxLink("reload_btn", Model.of("Reload")) {
+                    @Override
+                    public void onClick(AjaxRequestTarget target) {
+                        ajaxReload(target);
+                    }
+                };
         add(reload_btn);
 
-        delete_btn = new AjaxLink("delete_btn", Model.of("Delete this template file")) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                if (templateEditorPage != null) {
-                    templateEditorPage.deleteTemplate(model.getObject());
-                    ajaxReload(target);
-                }
-            }
-        };
+        delete_btn =
+                new AjaxLink("delete_btn", Model.of("Delete this template file")) {
+                    @Override
+                    public void onClick(AjaxRequestTarget target) {
+                        if (templateEditorPage != null) {
+                            templateEditorPage.deleteTemplate(model.getObject());
+                            ajaxReload(target);
+                        }
+                    }
+                };
         add(delete_btn);
     }
 
@@ -126,6 +131,4 @@ public class AbstractTemplateFormPanel extends Panel {
     public void setParent(AbstractTemplateEditorPage page) {
         this.templateEditorPage = page;
     }
-
-
 }

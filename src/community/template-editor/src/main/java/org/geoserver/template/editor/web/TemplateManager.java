@@ -1,10 +1,11 @@
 /* (c) 2014 Open Source Geospatial Foundation - all rights reserved
-* This code is licensed under the GPL 2.0 license, available at the root
-* application directory.
-*/
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 
 package org.geoserver.template.editor.web;
 
+import freemarker.cache.ClassTemplateLoader;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -14,18 +15,15 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.apache.commons.io.IOUtils;
 import org.geoserver.catalog.ResourceInfo;
-import org.geoserver.template.editor.constants.GeoServerConstants;
 import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.platform.resource.Paths;
 import org.geoserver.platform.resource.Resource;
 import org.geoserver.template.GeoServerTemplateLoader;
+import org.geoserver.template.editor.constants.GeoServerConstants;
 import org.geoserver.wms.featureinfo.HTMLFeatureInfoOutputFormat;
 import org.geotools.util.logging.Logging;
-
-import freemarker.cache.ClassTemplateLoader;
 
 public class TemplateManager implements Serializable {
     /** serialVersionUID */
@@ -34,8 +32,8 @@ public class TemplateManager implements Serializable {
     private static final Logger LOGGER = Logging.getLogger(TemplateManager.class);
 
     @Deprecated
-    public static TemplateResourceObject readTemplate(String filename, ResourceInfo resource,
-            String charset) throws IOException {
+    public static TemplateResourceObject readTemplate(
+            String filename, ResourceInfo resource, String charset) throws IOException {
         GeoServerTemplateLoader templateLoader = getGeoServerTemplateLoader();
 
         templateLoader.setResource(resource);
@@ -50,11 +48,20 @@ public class TemplateManager implements Serializable {
             String filepath = ((File) _tpl).getPath();
             source = filepath.substring(filepath.indexOf(GeoServerConstants.WORKSPACES));
         }
-        templ = new TemplateResourceObject(tplstring, source, "", resource.getName(),
-                resource.getNamespace().getName());
-        String destpath = Paths.path(GeoServerConstants.WORKSPACES,
-                resource.getNamespace().getName(), resource.getStore().getName(),
-                resource.getName(), filename);
+        templ =
+                new TemplateResourceObject(
+                        tplstring,
+                        source,
+                        "",
+                        resource.getName(),
+                        resource.getNamespace().getName());
+        String destpath =
+                Paths.path(
+                        GeoServerConstants.WORKSPACES,
+                        resource.getNamespace().getName(),
+                        resource.getStore().getName(),
+                        resource.getName(),
+                        filename);
         templ.setDestpath(destpath);
         return templ;
     }
@@ -96,8 +103,12 @@ public class TemplateManager implements Serializable {
      * Deletes the .tpl file if it is in the same folder than the layer (dedicated .tpl file)
      */
     @Deprecated
-    public static String deleteTemplate(TemplateResourceObject tpl, GeoServerResourceLoader loader,
-            ResourceInfo resource, String charset) throws IOException {
+    public static String deleteTemplate(
+            TemplateResourceObject tpl,
+            GeoServerResourceLoader loader,
+            ResourceInfo resource,
+            String charset)
+            throws IOException {
         String msg = "";
         // We check if the file (resource) is dedicated to this layer :
         // we won't allow to delete a shared template !
@@ -124,7 +135,8 @@ public class TemplateManager implements Serializable {
 
             msg += "Reloading template config.";
         } else {
-            msg = "Cannot remove file : not allowed (this template belgons to the datastore or upper)";
+            msg =
+                    "Cannot remove file : not allowed (this template belgons to the datastore or upper)";
         }
 
         return msg;
@@ -132,15 +144,19 @@ public class TemplateManager implements Serializable {
 
     @Deprecated
     public static GeoServerTemplateLoader getGeoServerTemplateLoader() throws IOException {
-        GeoServerTemplateLoader templateLoader = new GeoServerTemplateLoader(
-                HTMLFeatureInfoOutputFormat.class);
+        GeoServerTemplateLoader templateLoader =
+                new GeoServerTemplateLoader(HTMLFeatureInfoOutputFormat.class);
         // using HTMLFeatureInfoOutputFormat as caller to allow detection of the templates in
         // classpath, if no file is found
         return templateLoader;
     }
 
-    public static TemplateResourceObject readTemplate(String tplName, List<String> resourcePaths,
-            GeoServerResourceLoader loader, String charset) throws IOException {
+    public static TemplateResourceObject readTemplate(
+            String tplName,
+            List<String> resourcePaths,
+            GeoServerResourceLoader loader,
+            String charset)
+            throws IOException {
         TemplateResourceObject template = null;
 
         Iterator<String> it = resourcePaths.iterator();
@@ -172,8 +188,9 @@ public class TemplateManager implements Serializable {
             }
         }
         if (tplcontent == null) {
-            tplcontent = loadTemplateFromClassLoader(HTMLFeatureInfoOutputFormat.class, tplName,
-                    charset);
+            tplcontent =
+                    loadTemplateFromClassLoader(
+                            HTMLFeatureInfoOutputFormat.class, tplName, charset);
             actualPath = "default/";
         }
         LOGGER.fine("Template content is " + tplcontent);
@@ -186,8 +203,9 @@ public class TemplateManager implements Serializable {
     /*
      * Deletes the .tpl file if it is in the same folder than the layer (dedicated .tpl file)
      */
-    public static String deleteTemplate(TemplateResourceObject tpl, GeoServerResourceLoader loader,
-            String charset) throws IOException {
+    public static String deleteTemplate(
+            TemplateResourceObject tpl, GeoServerResourceLoader loader, String charset)
+            throws IOException {
         String msg = "";
         // We check if the file (resource) is dedicated to this layer :
         // we won't allow to delete a shared template !
@@ -199,12 +217,13 @@ public class TemplateManager implements Serializable {
             // reload
             List<String> paths = tpl.getAvailablePaths();
             paths.remove(0);
-            TemplateResourceObject t = TemplateManager.readTemplate(tpl.getFilename(), paths,
-                    loader, charset);
+            TemplateResourceObject t =
+                    TemplateManager.readTemplate(tpl.getFilename(), paths, loader, charset);
             tpl.from(t);
             msg += "Reloading template config.";
         } else {
-            msg = "Cannot remove file : not allowed (this template belongs to the datastore or upper)";
+            msg =
+                    "Cannot remove file : not allowed (this template belongs to the datastore or upper)";
         }
 
         return msg;
@@ -213,7 +232,8 @@ public class TemplateManager implements Serializable {
     private static String loadTemplateFromClassLoader(Class caller, String tplName, String charset)
             throws IOException {
         ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(caller, "");
-        // ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(caller, "/org/geoserver/wms/featureinfo");
+        // ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(caller,
+        // "/org/geoserver/wms/featureinfo");
         // final effort to use a class resource
         if (classTemplateLoader != null) {
             Object source = classTemplateLoader.findTemplateSource(tplName);

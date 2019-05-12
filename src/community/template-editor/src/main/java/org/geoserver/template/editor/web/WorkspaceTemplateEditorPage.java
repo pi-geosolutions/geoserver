@@ -1,16 +1,15 @@
 /* (c) 2014 Open Source Geospatial Foundation - all rights reserved
-* This code is licensed under the GPL 2.0 license, available at the root
-* application directory.
-*/
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 
 package org.geoserver.template.editor.web;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.geoserver.template.editor.constants.GeoServerConstants;
 import org.geoserver.platform.resource.Paths;
+import org.geoserver.template.editor.constants.GeoServerConstants;
 import org.geoserver.web.data.store.DataAccessEditPage;
 
 public class WorkspaceTemplateEditorPage extends AbstractTemplateEditorPage {
@@ -46,5 +45,4 @@ public class WorkspaceTemplateEditorPage extends AbstractTemplateEditorPage {
     protected String buildResourceFullName() {
         return workspaceName;
     }
-
 }

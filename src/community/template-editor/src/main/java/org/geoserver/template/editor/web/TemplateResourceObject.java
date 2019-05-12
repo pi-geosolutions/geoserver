@@ -1,13 +1,12 @@
 /* (c) 2014 Open Source Geospatial Foundation - all rights reserved
-* This code is licensed under the GPL 2.0 license, available at the root
-* application directory.
-*/
+ * This code is licensed under the GPL 2.0 license, available at the root
+ * application directory.
+ */
 
 package org.geoserver.template.editor.web;
 
 import java.io.Serializable;
 import java.util.List;
-
 import org.geoserver.platform.resource.Paths;
 
 public class TemplateResourceObject implements Serializable {
@@ -29,8 +28,8 @@ public class TemplateResourceObject implements Serializable {
     private List<String> availablePaths;
 
     @Deprecated
-    public TemplateResourceObject(String tpl, String source, String filename, String layername,
-            String wsname) {
+    public TemplateResourceObject(
+            String tpl, String source, String filename, String layername, String wsname) {
         this.originalContent = tpl;
         this.content = tpl;
         this.srcpath = source;
@@ -48,7 +47,7 @@ public class TemplateResourceObject implements Serializable {
 
     /**
      * Syncs with the templateResourceObject t content
-     * 
+     *
      * @param t : source templateObject
      */
     public void from(TemplateResourceObject t) {
