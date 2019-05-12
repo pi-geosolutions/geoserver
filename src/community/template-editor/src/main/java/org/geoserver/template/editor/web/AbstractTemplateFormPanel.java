@@ -77,7 +77,7 @@ public class AbstractTemplateFormPanel extends Panel {
             }
 
         };
-        save_btn.setEnabled(false);
+        save_btn.setEnabled(true);
         save_btn.setOutputMarkupId(true);
         add(save_btn);
 
@@ -107,9 +107,9 @@ public class AbstractTemplateFormPanel extends Panel {
         destpath_label.add(AttributeModifier.replace("class", "active"));
         destpath_label_dirty.add(AttributeModifier.replace("class", "active"));
         // TODO rewrite this
-        //target.addComponent(srcpath_label);
-        //target.addComponent(destpath_label);
-        //target.addComponent(destpath_label_dirty);
+        target.add(srcpath_label);
+        target.add(destpath_label);
+        target.add(destpath_label_dirty);
     }
 
     private void ajaxReload(AjaxRequestTarget target) {
@@ -119,10 +119,10 @@ public class AbstractTemplateFormPanel extends Panel {
         templateModel.getObject().setDirty("");
         destpath_label_dirty.add(AttributeModifier.replace("class", ""));
         // TODO rewrite this
-        //target.addComponent(tpl);
-        //target.addComponent(srcpath_label);
-        //target.addComponent(destpath_label);
-        //target.addComponent(destpath_label_dirty);
+        target.add(tpl);
+        target.add(srcpath_label);
+        target.add(destpath_label);
+        target.add(destpath_label_dirty);
     }
 
     public void setParent(AbstractTemplateEditorPage page) {
