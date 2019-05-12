@@ -95,6 +95,7 @@
           <descriptor>release/ext-qos.xml</descriptor>
           <descriptor>release/ext-web-resource.xml</descriptor>
           <descriptor>release/ext-s3-geotiff.xml</descriptor>
+          <descriptor>release/ext-template-editor.xml</descriptor>
         </descriptors>
       </configuration>
      </plugin>
@@ -591,6 +592,12 @@
       <id>monitor-hibernate</id>
       <modules>
         <module>monitor-hibernate</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>template-editor</id>
+      <modules>
+        <module>template-editor</module>
       </modules>
     </profile>
   </profiles>  
